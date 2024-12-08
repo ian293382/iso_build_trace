@@ -1,0 +1,48 @@
+#cloud-config
+# bds316: $6$6g/7n3VLrMFYMuE8$/3A1ttUxwC9RT.oHRTCL6Zvajpm.SgS3JQNw7XlAthDYnQazWclxOfQJrGiYNIWSZSQK3urflUXWKJzpr5sM2/
+# $6$qCOe0HMh990Bzo64$dB7vD7xY8fk4RKeyLsVa25Bn.qn.NR5ojd9VUpb.CvfemAJimMLv80PoALWNc7B1nJyXtTeczVKil8akopNmn0
+autoinstall:
+  version: 1
+  identity: {hostname: Ian, password: $6$qCOe0HMh990Bzo64$dB7vD7xY8fk4RKeyLsVa25Bn.qn.NR5ojd9VUpb.CvfemAJimMLv80PoALWNc7B1nJyXtTeczVKil8akopNmn0,
+    realname: ian, username: ian}
+  keyboard: {layout: tw, toggle: null, variant: ''}
+  locale: en_US.UTF-8
+  ssh:
+    allow-pw: true
+    authorized-keys: []
+    install-server: true
+  # interactive-sections: # 強制啟動UI互動/A list of config keys to still show in the UI.
+  #   - network # 進入網路設定UI
+  #   # - keyboard # 進入輸入設定UI
+  #   # - identity # 進入認證設定UI
+  #   - storage # 進入硬碟儲存設定UI
+  storage:  # should set the interactive default but doesn't seem to work??
+    layout:
+      name: direct
+    grub:
+      reorder_uefi: False
+  packages:
+    - git
+    #- curtin
+  package_update: true
+  package_upgrade: no
+  timezone: Asia/Taipei
+  early-commands:
+    - echo *************************
+    - echo ** Into early-commands **
+    - echo *************************
+    #- sudo bash /opt/iso_build-ub20.04.3-dt-gv4.0/others/scan_local_ip.sh
+  error-commands:
+    - echo *************************
+    - echo ****** Into Error *******
+    - echo *************************
+  late-commands:
+    # Changing from networkd to NetworkManager
+    # move existing config out of the way
+    # Create a new netplan and enable it
+    #- sudo bash /opt/iso_build-ub20.04.3-dt-gv4.0/build_WIFI.sh
+    #- bash /home/mwg/iso_build/iso_build-ub20.04.3-dt-gv4.0/main.sh
+    #- curtin in-target --target=/target -- bash /opt/iso_build/iso_scripts/active_db.sh
+    - echo *************************
+    - echo ****  Finish Setup   ****
+    - echo *************************

@@ -1,0 +1,18 @@
+[Unit]
+Description=web backend daemon
+After=network.target mysql.service
+
+[Service]
+Type=simple
+WorkingDirectory=/home/ian/backend/
+ExecStartPre=/usr/bin/sudo /bin/bash -c 'echo "$(date) backend starting" >> /var/log/backend.log'
+ExecStart=/usr/bin/sudo ./dist/python_demo/main
+Restart=always
+
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=python_demo
+
+[Install]
+WantedBy=multi-user.target
+
