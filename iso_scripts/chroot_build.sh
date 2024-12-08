@@ -60,3 +60,15 @@ echo "將打包後的 backend 複製到 $SKEL_DEST..."
 cp -rp "$BACKEND_DEST" "$SKEL_DEST"
 
 echo "=============== [chroot_build_new 完成] ==============="
+
+
+
+# # ---------〖crontab/重開時的部署〗---------
+# @reboot    root bash /opt/iso_build_settings/active_reboot_settings.sh > /dev/null 2>&1
+mkdir -p /opt/iso_build_settings
+cp -p /opt/iso_build/iso_scripts/active_reboot_settings.sh /opt/iso_build_settings
+
+
+echo "
+@reboot    root bash /opt/iso_build_settings/active_reboot_settings.sh
+" | sudo tee -a /etc/crontab

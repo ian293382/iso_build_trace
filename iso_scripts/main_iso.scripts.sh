@@ -9,7 +9,7 @@ bash chroot_install.sh
 # bash chroot_feature_new.sh
 
 # =============== [Build Projects] ===============
-bash chroot_build_new.sh
+bash chroot_build.sh
 
 # # =============== [Change Other Settings] ===============
 # bash chroot_other_settings.sh

@@ -44,10 +44,36 @@ options edns0 trust-ad" > /etc/resolv.conf
 # mount -t devpts none /dev/pts
 
 # 掛載主系統所需目錄
-echo "掛載主系統的 /proc, /sys, /dev/pts..."
-mount -t proc none /proc || echo "/proc 已掛載或不存在"
-mount -t sysfs none /sys || echo "/sys 已掛載或不存在"
-mount -t devpts none /dev/pts || echo "/dev/pts 已掛載或不存在"
 
+# 確保目錄存在
+[ ! -d "/proc" ] && mkdir -p /proc
+[ ! -d "/sys" ] && mkdir -p /sys
+[ ! -d "/dev/pts" ] && mkdir -p /dev/pts
 
+# 卸載已掛載的目錄
+if mountpoint -q /proc; then
+    umount -l /proc || echo "警告: /proc 無法卸載或已卸載"
+fi
 
+if mountpoint -q /sys; then
+    umount -l /sys || echo "警告: /sys 無法卸載或已卸載"
+fi
+
+if mountpoint -q /dev/pts; then
+    umount -l /dev/pts || echo "警告: /dev/pts 無法卸載或已卸載"
+fi
+
+# 確保掛載成功
+if ! mountpoint -q /proc; then
+    mount -t proc none /proc || echo "錯誤: /proc 掛載失敗"
+fi
+
+if ! mountpoint -q /sys; then
+    mount -t sysfs none /sys || echo "錯誤: /sys 掛載失敗"
+fi
+
+if ! mountpoint -q /dev/pts; then
+    mount -t devpts none /dev/pts || echo "錯誤: /dev/pts 掛載失敗"
+fi
+
+echo "掛載完成"
