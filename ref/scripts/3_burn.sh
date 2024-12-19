@@ -4,9 +4,6 @@
 
 # ===============〖回到原本系統後，壓回filesystem.squashfs並製作全新ISO〗===============
 ## 刪除原本的 filesystem.squashfs 檔
-echo "--------- [3_burn] REMOVE filesystem.squashfs ---------"
-rm ./../${UNPACK_OUTPUT_FILENAME}/casper/filesystem.squashfs
-
 ## 再將客製完的squashfs-root，壓成 filesystem.squashfs，把原本的取代掉。
 echo "--------- [3_burn] REMAKE filesystem.squashfs ---------"
 mksquashfs ./../${UNPACK_OUTPUT_FILENAME}/casper/squashfs-root ./../${UNPACK_OUTPUT_FILENAME}/casper/filesystem.squashfs
@@ -29,13 +26,14 @@ echo > ./../${UNPACK_OUTPUT_FILENAME}/md5sum.txt
 
 
 # ---------〖燒錄ISO〗---------
-echo "--------- [3_burn] BURNING AN ISO IMAGE ---------"
-cd ./../${UNPACK_OUTPUT_FILENAME}
 
 ## 1. 傳統燒錄
 # mkisofs -D -r -V $OUTPUT_COVER_FILENAME -cache-inodes -J -l -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -o "../4.0test_${TIME}_MKI.iso" .
 ## 2. 傳統燒錄有含UEFI配置
 # genisoimage -quiet -D -r -V $OUTPUT_COVER_FILENAME
+
+echo "--------- [3_burn] BURNING AN ISO IMAGE ---------"
+cd ./../${UNPACK_OUTPUT_FILENAME}
 
 xorriso -as mkisofs -r \
   -iso-level 3 \
@@ -44,6 +42,7 @@ xorriso -as mkisofs -r \
   -boot-load-size 4 -boot-info-table \
   -eltorito-alt-boot -e boot/grub/efi.img -no-emul-boot \
   -isohybrid-gpt-basdat -isohybrid-apm-hfsplus \
-  -isohybrid-mbr /usr/lib/ISOLINUX/isohdpfx.bin  \
+  -isohybrid-mbr /usr/lib/ISOLINUX/isohdpfx.bin \
   -o ../output/4.0test_${TIME}_XOR.iso \
-  ./boot .
+  ./boot . \
+  -x ./sys -x ./proc -x ./dev -x ./tmp
