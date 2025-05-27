@@ -1,6 +1,8 @@
 # ===============【新增新使用者】===============
 NEW_USER="customer"
-NEW_USER_PASSWORD="Guest@123456"
+NEW_USER_PASSWORD="customer"
+
+# 可以設定客製化密碼 當用戶以客戶帳戶登入時設定腳本
 
 # ===============【時區預設】===============
 TIME_ZONE="Asia/Taipei" # 預設時區
