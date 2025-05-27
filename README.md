@@ -95,3 +95,4 @@ label autoinstall-server
 
 - user-data: 為cloud-init，可參考 [ubuntu server/Automated Server Installs Config File Reference](https://ubuntu.com/server/docs/install/autoinstall-reference) 介紹，
 - meta-data: 目前不知道在幹麼，需要存在，但內容空著 autoinstall 也能正常運行。
+- uefi 檔案需要再 /source-code/isolinux/grub.ini 以及user-data 才能進行客製化iso  主要在user-data 設置方面 disk非常重要。
